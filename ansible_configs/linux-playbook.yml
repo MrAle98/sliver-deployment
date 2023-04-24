@@ -1,0 +1,47 @@
+- name: sliverserver-playbook
+  hosts: "{{ sliverserverip }}"
+  tasks:
+    - name: Copy sliver server
+      become: yes
+      ansible.builtin.copy:
+        src: ./sliver
+        dest: /opt/
+        directory_mode: 1
+    - name: change perms
+      become: yes
+      ansible.builtin.command:
+        cmd: chmod +x /opt/sliver/sliver-server
+    - name: create operator file
+      become: yes
+      ansible.builtin.command:
+        cmd: /opt/sliver/sliver-server operator -l {{ sliverserverip }} -p 1337 -n operator -s /opt/sliver/operator.cfg
+    - name: create builder operator file
+      become: yes
+      ansible.builtin.command:
+        cmd: /opt/sliver/sliver-server operator -l 172.31.0.5 -p 1337 -n operator -s /opt/sliver/builder.cfg
+    - name: change operator perms
+      become: yes
+      ansible.builtin.command:
+        cmd: chmod +r /opt/sliver/builder.cfg
+    - name: change operator perms
+      become: yes
+      ansible.builtin.command:
+        cmd: chmod +r /opt/sliver/operator.cfg
+    - name: download operator file
+      ansible.builtin.fetch:
+        src: /opt/sliver/operator.cfg
+        dest: ./operator.cfg
+        flat: yes
+    - name: download sliver builder operator file
+      ansible.builtin.fetch:
+        src: /opt/sliver/builder.cfg
+        dest: ./builder.cfg
+        flat: yes
+    - name: remove operator files
+      become: yes
+      ansible.builtin.command:
+        cmd: rm /opt/sliver/operator.cfg /opt/sliver/builder.cfg
+    - name: start sliver daemon mode
+      shell: "/opt/sliver/sliver-server daemon -l 0.0.0.0 -p 1337 &"
+      async: 45
+      poll: 0

@@ -1,0 +1,8 @@
+[sliverbuilder]
+{{ sliverbuilderip }}
+
+[sliverbuilder:vars]
+ansible_connection=winrm 
+ansible_user=winadmin1
+ansible_password={{ winadmin1 password }}
+ansible_winrm_server_cert_validation=ignore

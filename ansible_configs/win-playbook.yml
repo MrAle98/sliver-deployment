@@ -1,0 +1,32 @@
+- name: sliverbuilder-playbook
+  hosts: sliverbuilder
+  vars:
+    - packages:
+      - visualstudio2019-workload-vctools
+      - vcredist140
+  tasks:
+    - name: Install build tools and vcredist
+      chocolatey.chocolatey.win_chocolatey:
+        name: "{{ packages }}"
+        state: present
+    - name: Install git
+      chocolatey.chocolatey.win_chocolatey:
+        name: git
+        state: present
+    - name: Install deps
+      script: "install-deps.ps1"
+      register: out
+    - name: Copy assets
+      ansible.builtin.copy:
+        src: ./Sliver-CPPImplant2-asset
+        dest: C:\\
+        directory_mode: 1
+    - name: copy sliver-builder
+      ansible.builtin.copy:
+        src: ./sliver
+        dest: C:\\Program Files\\
+        directory_mode: 1
+    - name: upload builder operator file
+      ansible.builtin.copy:
+        src: ./builder.cfg
+        dest: C:\\Program Files\\sliver\\
