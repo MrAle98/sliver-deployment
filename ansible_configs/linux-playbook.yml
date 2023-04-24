@@ -14,11 +14,11 @@
     - name: create operator file
       become: yes
       ansible.builtin.command:
-        cmd: /opt/sliver/sliver-server operator -l {{ sliverserverip }} -p 1337 -n operator -s /opt/sliver/operator.cfg
+        cmd: /opt/sliver/sliver-server operator -l {{ sliverserverip }} -p 31337 -n operator -s /opt/sliver/operator.cfg
     - name: create builder operator file
       become: yes
       ansible.builtin.command:
-        cmd: /opt/sliver/sliver-server operator -l 172.31.0.5 -p 1337 -n operator -s /opt/sliver/builder.cfg
+        cmd: /opt/sliver/sliver-server operator -l 172.31.0.5 -p 31337 -n operator -s /opt/sliver/builder.cfg
     - name: change operator perms
       become: yes
       ansible.builtin.command:
@@ -42,6 +42,7 @@
       ansible.builtin.command:
         cmd: rm /opt/sliver/operator.cfg /opt/sliver/builder.cfg
     - name: start sliver daemon mode
-      shell: "/opt/sliver/sliver-server daemon -l 0.0.0.0 -p 1337 &"
+      become: yes
+      shell: "/opt/sliver/sliver-server daemon &"
       async: 45
       poll: 0
