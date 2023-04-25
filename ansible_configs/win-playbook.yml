@@ -18,8 +18,8 @@
       register: out
     - name: Copy assets
       ansible.builtin.copy:
-        src: ./Sliver-CPPImplant2-asset/
-        dest: "C:\\Sliver-CPPImplant2-asset"
+        src: ./Sliver-CPPImplant2-asset
+        dest: "C:\\"
         directory_mode: 1
     - name: copy sliver-builder
       ansible.builtin.copy:
@@ -30,16 +30,19 @@
       ansible.builtin.copy:
         src: ./builder.cfg
         dest: C:\\Program Files\\sliver\\
-    - name: start sliver-server
+    - name: start sliver-server (unpacking)
       ansible.windows.win_powershell:
         script: |
           Start-Process "C:\Program Files\sliver\sliver-server.exe"
-          Start-Sleep -seconds 15
+          Start-Sleep -seconds 30
           get-process -name sliver-server
           stop-process -name sliver-server -force
-          Start-process "C:\Program Files\sliver\sliver-server.exe" -WorkingDirectory "C:\Program Files\sliver" -argumentList "builder -c builder.cfg"  
-        arguments:
-        - -ExecutionPolicy
-        - ByPass
+          //New-Service -Name SliverSVC -BinaryPathName " cmd.exe /c '\"C:\Program Files\sliver\sliver-server.exe\" builder -c \"C:\Program Files\sliver\builder.cfg\"'" -StartupType Manual
+          //Start-Service -name SliverSVC
+      register: out
+    - name: restart sliver-server
+      ansible.windows.win_shell: .\sliver-server.exe builder -c builder.cfg
+      args:
+        chdir: "C:\\Program Files\\sliver"
       async: 45
-      poll: 0         
+      poll: 0
