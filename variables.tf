@@ -50,11 +50,10 @@ variable "delete_on_termination" {
 }
 
 variable "instance_username" {
-  type = string
+  type    = string
   default = "winadmin1"
 }
 
 variable "instance_password" {
   type = string
-  default = {{winadmin1 password}}
 }
