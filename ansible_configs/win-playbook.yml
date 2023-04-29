@@ -16,16 +16,20 @@
     - name: Install deps
       script: "install-deps.ps1"
       register: out
-    - name: Copy assets
-      ansible.builtin.copy:
-        src: ./Sliver-CPPImplant2-asset
-        dest: "C:\\"
-        directory_mode: 1
-    - name: copy sliver-builder
-      ansible.builtin.copy:
-        src: ./sliver
-        dest: C:\\Program Files\\
-        directory_mode: 1
+    - name: Copy assets and sliver
+#      ansible.builtin.copy:
+#        src: ./Sliver-CPPImplant2-asset
+#        dest: "C:\\"
+#        directory_mode: 1
+#    - name: copy sliver-builder
+#      ansible.builtin.copy:
+#        src: ./sliver
+#        dest: C:\\Program Files\\
+#        directory_mode: 1
+      ansible.windows.win_powershell:
+        script: |
+          Copy-S3Object -BucketName sliver-bucket -KeyPrefix "/Sliver-CPPImplant2-asset"  -LocalFolder "C:\Sliver-CPPImplant2-asset\"
+          Copy-S3Object -BucketName sliver-bucket -KeyPrefix "/sliver"  -LocalFolder "C:\Program Files\sliver\"
     - name: upload builder operator file
       ansible.builtin.copy:
         src: ./builder.cfg

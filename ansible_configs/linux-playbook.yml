@@ -3,10 +3,12 @@
   tasks:
     - name: Copy sliver server
       become: yes
-      ansible.builtin.copy:
-        src: ./sliver
-        dest: /opt/
-        directory_mode: 1
+#      ansible.builtin.copy:
+#        src: ./sliver
+#        dest: /opt/
+#        directory_mode: 1
+      ansible.builtin.command:
+        cmd: aws s3 cp --recursive s3://sliver-bucket/sliver /opt/sliver
     - name: change perms
       become: yes
       ansible.builtin.command:
