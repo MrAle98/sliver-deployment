@@ -1,0 +1,31 @@
+{
+  "dependencies": [
+    "botan",
+    "cpr",
+    "gzip-hpp",
+    "libsodium",
+    "protobuf"
+  ],
+  "overrides": [
+    {
+      "name": "botan",
+      "version": "2.19.3"
+    },
+    {
+      "name": "cpr",
+      "version": "1.9.2"
+    },
+    {
+      "name": "gzip-hpp",
+      "version": "0.1.0#1"
+    },
+    {
+      "name": "libsodium",
+      "version": "1.0.18#8"
+    },
+    {
+      "name": "protobuf",
+      "version": "3.21.8"
+    }
+  ]
+}

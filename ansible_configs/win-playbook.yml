@@ -13,6 +13,10 @@
       chocolatey.chocolatey.win_chocolatey:
         name: git
         state: present
+    - name: Install python310
+      chocolatey.chocolatey.win_chocolatey:
+        name: python310
+        state: present
     - name: Install deps
       script: "install-deps.ps1"
       register: out
