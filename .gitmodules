@@ -1,0 +1,12 @@
+[submodule "MemoryModulePP"]
+	path = MemoryModulePP
+	url = https://github.com/MrAle98/MemoryModulePP
+[submodule "inceptor"]
+	path = inceptor
+	url = https://github.com/MrAle98/inceptor
+[submodule "ansible_configs/inceptor"]
+	path = ansible_configs/inceptor
+	url = https://github.com/MrAle98/inceptor
+[submodule "ansible_configs/MemoryModulePP"]
+	path = ansible_configs/MemoryModulePP
+	url = https://github.com/MrAle98/MemoryModulePP
