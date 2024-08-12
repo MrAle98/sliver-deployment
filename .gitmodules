@@ -4,3 +4,6 @@
 [submodule "ansible_configs/MemoryModulePP"]
 	path = ansible_configs/MemoryModulePP
 	url = https://github.com/MrAle98/MemoryModulePP
+[submodule "ansible_configs/Sliver-CPPImplant2"]
+	path = ansible_configs/Sliver-CPPImplant2
+	url = https://github.com/MrAle98/Sliver-CPPImplant2
