@@ -86,20 +86,20 @@
     #       cd "C:\temp\"
     #       Expand-Archive inceptor.zip -DestinationPath .
     #       rm -Force inceptor.zip
-    # - name: zip MemoryModulePP (local)
-    #   local_action: ansible.builtin.command zip -r MemoryModulePP.zip MemoryModulePP
-    # - name: upload MemoryModulePP.zip
-    #   ansible.builtin.copy:
-    #     src: MemoryModulePP.zip
-    #     dest: "C:\\temp"
-    # - name: delete MemoryModulePP.zip (local)
-    #   local_action: ansible.builtin.command rm MemoryModulePP.zip
-    # - name: unzip MemoryModulePP.zip
-    #   ansible.windows.win_powershell:
-    #     script: |
-    #       cd "C:\temp\"
-    #       Expand-Archive MemoryModulePP.zip -DestinationPath .
-    #       rm -Force MemoryModulePP.zip      
+    - name: zip MemoryModulePP (local)
+      local_action: ansible.builtin.command zip -r MemoryModulePP.zip MemoryModulePP
+    - name: upload MemoryModulePP.zip
+      ansible.builtin.copy:
+        src: MemoryModulePP.zip
+        dest: "C:\\temp"
+    - name: delete MemoryModulePP.zip (local)
+      local_action: ansible.builtin.command rm MemoryModulePP.zip
+    - name: unzip MemoryModulePP.zip
+      ansible.windows.win_powershell:
+        script: |
+          cd "C:\temp\"
+          Expand-Archive MemoryModulePP.zip -DestinationPath .
+          rm -Force MemoryModulePP.zip      
     # - name: copy inceptor-config.txt
     #   ansible.builtin.copy:
     #     src: ./inceptor-config.txt
@@ -114,9 +114,11 @@
     - name: config builders for deployment environment
       ansible.windows.win_powershell:
         script: |
+          cd "C:\"
+          mv .\Sliver-CPPImplant2 .\Sliver-CPPImplant2-asset
           cd "C:\Sliver-CPPImplant2-asset"
           cp compile.bat compile.bat.bak
-          mv deploy_compile.bat compile.bat
+          mv -force deploy_compile.bat compile.bat
           cd "C:\temp\MemoryModulePP"
           mv build_loader.bat build_loader.bat.bak 
           mv build_loader_deploy.bat build_loader.bat
