@@ -45,3 +45,12 @@ PS >
 ```
 
 4. Restart the VM.
+
+5. Run build-servers.sh.
+
+```
+$ ./build-servers.sh
+[...]
+GOOS=windows CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -mod=vendor -trimpath -tags osusergo,netgo,cgosqlite,sqlite_omit_load_extension,client -ldflags "-s -w -X github.com/bishopfox/sliver/client/version.Version=v1.5.22 -X \"github.com/bishopfox/sliver/client/version.GoVersion=go version go1.19.1 linux/amd64\" -X github.com/bishopfox/sliver/client/version.CompiledAt=1723566051 -X github.com/bishopfox/sliver/client/version.GithubReleasesURL=https://api.github.com/repos/BishopFox/sliver/releases -X github.com/bishopfox/sliver/client/version.GitCommit=2772f8897de1a6cb7e37eb7ad9b529ac81dc8de5 -X github.com/bishopfox/sliver/client/version.GitDirty= -X github.com/bishopfox/sliver/client/assets.DefaultArmoryPublicKey=RWSBpxpRWDrD7Fe+VvRE3c2VEDC2NK80rlNCj+BX0gz44Xw07r6KQD9L -X github.com/bishopfox/sliver/client/assets.DefaultArmoryRepoURL=https://api.github.com/repos/sliverarmory/armory/releases" -o sliver-client.exe ./client
+$ 
+```
