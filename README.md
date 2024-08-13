@@ -121,9 +121,11 @@ $ cd ansible_configs/
 $ ansible-playbook -i inventory/win_inventory.yml win-playbook_local.yml
 ```
 
-Now start a sliver-client on your kali machine and notice the builder was registered successfully and you can generate exe, dll, dotnet, powershell implants.
+Now start a sliver-client on your kali machine and notice the builder was registered successfully and you can generate exe, dll, dotnet, powershell implants. Be careful to spawn HTTP/HTTPS listeners always with the `-D` option as the C++ implant do not provide full support for OTPs.
 
 ```
+sliver > http -D
+[...]
 sliver > generate beacon --http http://192.168.161.50 -E -f dotnet
 
 [*] Using external builder: DESKTOP-H8C0U5U
