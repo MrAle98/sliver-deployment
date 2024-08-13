@@ -1,3 +1,4 @@
+Set-ExecutionPolicy  -ExecutionPolicy Bypass -Force
 mkdir C:\temp
 mkdir C:\temp\inceptor
 cd C:\vcpkg
