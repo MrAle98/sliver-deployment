@@ -194,3 +194,9 @@ Dll entrypoint is **Entry**.
 ```
 > rundll32.exe LEGAL_LENGTH.dll,Entry
 ```
+
+## Acknowledgements
+
+* [Alessandro Magnosi](https://twitter.com/KlezVirus) for inceptor
+* [@bb107](https://github.com/bb107) for MemoryModulePP
+* [Joe DeMesy](https://github.com/moloch--) [Ronan Kervella](https://github.com/rkervella) [@BishopFox](https://github.com/BishopFox) for sliver of course
