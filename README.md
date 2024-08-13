@@ -6,10 +6,15 @@ This repository deploys both a **sliver teamserver** and a **builder of C++ impl
 
 ## Requirements
 
-Requires to install:
+Requires to install locally:
 * **ansible**
 * [**pywinrm**](https://docs.ansible.com/ansible/latest/os_guide/windows_winrm.html) so that ansible con communicate with the windows VM over WinRM
 * **go1.19.1**
+
+Additional requirements to install on aws:
+* **terraform** 
+* **awscli**
+
 
 Be sure that when you run go on your machine the symbolic link is pointing to go1.19.1.
 ```
@@ -195,7 +200,9 @@ Dll entrypoint is **Entry**.
 
 ## Deploy all on aws
 
-1. change private key in variables.tf
+Create ssh key on AWS
+
+1. change private key name in variables.tf. Change path to private key (.pem file) in decrypt_pass.sh. Change path to private key (.pem file) in run_linuxplaybook.sh.
 2. 
 
 
