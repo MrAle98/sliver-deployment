@@ -4,8 +4,23 @@ This repo contains automation scripts in order to deploy my own branch (**branch
 
 This repository deploys both a **sliver teamserver** and a **builder of C++ implants for the windows machine**. The **teamserver** is deployed on **linux machine**, the **builder** is deployed on a **windows machine**.
 
-*Requires to install **ansible** and **pywinrm** https://docs.ansible.com/ansible/latest/os_guide/windows_winrm.html so that ansible con communicate with the windows VM over WinRM.
-Requires to install **go1.19.1** and link **/usr/bin/go** to **go1.19.1**.* 
+## Requirements
+
+Requires to install:
+* **ansible**
+* [pywinrm]([https://link-url-here.org](https://docs.ansible.com/ansible/latest/os_guide/windows_winrm.html)) so that ansible con communicate with the windows VM over WinRM
+* **go1.19.1**
+
+Be sure that when you run go on your machine the symbolic link is pointing to go1.19.1.
+```
+┌──(kali㉿kali)-[/usr/bin]
+└─$ ls -la go
+lrwxrwxrwx 1 root root 26 13 ago 16.19 go -> /home/kali/go/bin/go1.19.1
+
+┌──(kali㉿kali)-[/usr/bin]
+└─$
+```
+
 
 
 ## Deploy all locally
