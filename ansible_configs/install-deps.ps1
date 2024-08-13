@@ -1,4 +1,5 @@
 mkdir C:\temp
+mkdir C:\temp\inceptor
 mkdir C:\vcpkg
 cd C:\vcpkg
 git clone https://github.com/microsoft/vcpkg.git

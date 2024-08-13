@@ -7,3 +7,6 @@
 [submodule "ansible_configs/Sliver-CPPImplant2"]
 	path = ansible_configs/Sliver-CPPImplant2
 	url = https://github.com/MrAle98/Sliver-CPPImplant2
+[submodule "obfuscators/powershell/chameleon"]
+        path = ansible_configs/inceptor/inceptor/obfuscators/powershell/chameleon
+        url = https://github.com/klezVirus/chameleon.git
