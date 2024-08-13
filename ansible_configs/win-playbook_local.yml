@@ -15,7 +15,7 @@
         name: git
         state: present
     - name: Creates directory
-      ansible.builtin.file:
+      ansible.windows.win_file:
         path: "C:\\vcpkg"
         state: directory
     - name: upload vcpkg.json
