@@ -8,11 +8,6 @@ variable "ami-aws-linux" {
   default = "ami-0b7fd829e7758b06d"
 }
 
-variable "sliver-bucket" {
-  type = string
-  default = "arn:aws:s3:::sliver-bucket"
-}
-
 variable "private_key" {
   type    = string
   default = "windows-server-2022-AWS.pem"
@@ -20,12 +15,6 @@ variable "private_key" {
 
 variable "whitelist_cidr_home" {
   type    = string
-  default = "109.116.129.49/32"
-}
-
-variable "whitelist_cidr_laura" {
-  type    = string
-  default = "5.102.1.122/32"
 }
 
 #subnet 172.31.0.0/20
@@ -40,7 +29,6 @@ variable "private_ip_sliver-server" {
 
 variable "whitelist_cidr_office" {
   type    = string
-  default = "212.31.229.126/32"
 }
 
 variable "root_volume_size" {

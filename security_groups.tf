@@ -7,7 +7,7 @@ resource "aws_security_group" "windows-sliver-builder_sg" {
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = [var.whitelist_cidr_laura, var.whitelist_cidr_home, var.whitelist_cidr_office]
+    cidr_blocks = [var.whitelist_cidr_home, var.whitelist_cidr_office]
   }
 
   ingress {
@@ -15,7 +15,7 @@ resource "aws_security_group" "windows-sliver-builder_sg" {
     from_port   = 5985
     to_port     = 5986
     protocol    = "tcp"
-    cidr_blocks = [var.whitelist_cidr_laura, var.whitelist_cidr_home, var.whitelist_cidr_office]
+    cidr_blocks = [var.whitelist_cidr_home, var.whitelist_cidr_office]
   }
 
   # outbound internet access
