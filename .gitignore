@@ -8,3 +8,4 @@ builder.cfg
 operator.cfg
 ansible_configs/sliver/*
 sliver/**
+ansible_configs/inventory/**
