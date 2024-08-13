@@ -22,10 +22,10 @@
           process {
             try {
               # Create new local user
-              New-LocalUser "$username" -Password $password -FullName "$username" -Description "local admin" -ErrorAction stop
+              New-LocalUser "$username" -Password $password -FullName "$username" -Description "local admin" -ErrorAction ignore
               Write-Log -message "$username local user created"
               # Add user to administrator group
-              Add-LocalGroupMember -Group "Administrators" -Member "$username" -ErrorAction stop
+              Add-LocalGroupMember -Group "Administrators" -Member "$username" -ErrorAction ignore
               Write-Log -message "$username added to the Administrators group"
             }catch{ Write-log -message $_.Exception.message -level "ERROR"}
           }
@@ -91,7 +91,7 @@
       }
       Delete-WinRMListener
       # Create local admin user
-      #Create-LocalAdmin
+      Create-LocalAdmin
       #Configure WinRM service
       Configure-WinRMService
       #Configure WinRM listener
@@ -102,6 +102,13 @@
       Write-Verbose -Verbose "Listing the WinRM listeners:"
       Write-Verbose -Verbose "Querying WinRM listeners by running command: winrm enumerate winrm/config/listener"
       winrm enumerate winrm/config/listener
+
+
+      # add to remote management users
+      net localgroup "Remote Management Users" $username /add
+      
+      # add to remote desktop users
+      net localgroup "Remote Desktop Users" $username /add
 
       # Disable AV
       Set-MpPreference -DisableIntrusionPreventionSystem $true -DisableIOAVProtection $true -DisableRealtimeMonitoring $true -DisableScriptScanning $true -EnableControlledFolderAccess Disabled -EnableNetworkProtection AuditMode -Force -MAPSReporting Disabled -SubmitSamplesConsent NeverSend
