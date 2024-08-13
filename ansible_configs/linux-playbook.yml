@@ -1,14 +1,20 @@
 - name: sliverserver-playbook
   hosts: "{{ sliverserverip }}"
   tasks:
-    - name: Copy sliver server
+    - name: zip sliver (local)
+      local_action: ansible.builtin.command zip -r sliver.zip sliver
+    - name: upload sliver.zip
       become: yes
-#      ansible.builtin.copy:
-#        src: ./sliver
-#        dest: /opt/
-#        directory_mode: 1
+      ansible.builtin.copy:
+        src: sliver.zip
+        dest: /opt/
+    - name: delete sliver.zip (local)
+      local_action: ansible.builtin.command rm sliver.zip
+    - name: unzip sliver.zip
+      become: yes
       ansible.builtin.command:
-        cmd: aws s3 cp --recursive s3://sliver-bucket/sliver /opt/sliver
+        cmd: unzip sliver.zip
+        chdir: /opt
     - name: change perms
       become: yes
       ansible.builtin.command:
@@ -17,14 +23,22 @@
       become: yes
       ansible.builtin.command:
         cmd: /opt/sliver/sliver-server operator -l {{ sliverserverip }} -p 31337 -n operator -s /opt/sliver/operator.cfg
-    - name: create builder operator file
+    - name: create builder operator file (aws windows machine)
       become: yes
       ansible.builtin.command:
-        cmd: /opt/sliver/sliver-server operator -l 172.31.0.5 -p 31337 -n operator -s /opt/sliver/builder.cfg
-    - name: change operator perms
+        cmd: /opt/sliver/sliver-server operator -l 172.31.0.5 -p 31337 -n builder_aws -s /opt/sliver/builder.cfg
+    - name: create builder operator file (local windows machine)
       become: yes
       ansible.builtin.command:
-        cmd: chmod +r /opt/sliver/builder.cfg
+        cmd: /opt/sliver/sliver-server operator -l {{ sliverserverip }} -p 31337 -n builder_local -s /opt/sliver/builder_local.cfg
+    - name: change builder perms (aws windows machine)
+      become: yes
+      ansible.builtin.command:
+        cmd: chmod +r /opt/sliver/builder_local.cfg
+    - name: change builder perms (local windows machine)
+      become: yes
+      ansible.builtin.command:
+        cmd: chmod +r /opt/sliver/builder_local.cfg
     - name: change operator perms
       become: yes
       ansible.builtin.command:
@@ -34,15 +48,20 @@
         src: /opt/sliver/operator.cfg
         dest: ./operator.cfg
         flat: yes
-    - name: download sliver builder operator file
+    - name: download sliver builder operator file (aws windows machine)
       ansible.builtin.fetch:
         src: /opt/sliver/builder.cfg
-        dest: ./builder.cfg
+        dest: ./builder_aws.cfg
+        flat: yes
+    - name: download sliver builder operator file (local windows machine)
+      ansible.builtin.fetch:
+        src: /opt/sliver/builder.cfg
+        dest: ./builder_local.cfg
         flat: yes
     - name: remove operator files
       become: yes
       ansible.builtin.command:
-        cmd: rm /opt/sliver/operator.cfg /opt/sliver/builder.cfg
+        cmd: rm /opt/sliver/operator.cfg /opt/sliver/builder.cfg /opt/sliver/builder_local.cfg
     - name: start sliver daemon mode
       become: yes
       shell: "/opt/sliver/sliver-server daemon &"
