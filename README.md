@@ -203,7 +203,12 @@ Dll entrypoint is **Entry**.
 Create ssh key on AWS
 
 1. change private key name in variables.tf. Change path to private key (.pem file) in decrypt_pass.sh. Change path to private key (.pem file) in run_linuxplaybook.sh.
-2. 
+2. run terraform.
+```
+$ terraform init
+$ terraform validate
+$ terraform apply
+```
 
 
 ## Notes
