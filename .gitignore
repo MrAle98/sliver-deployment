@@ -6,6 +6,6 @@ terraform.tfstate
 terraform.tfstate.backup
 builder.cfg
 operator.cfg
-ansible_configs/inventory/*
 ansible_configs/sliver/*
 sliver/**
+ansible_configs/inventory/win_inventory.yml
