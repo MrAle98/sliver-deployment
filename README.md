@@ -193,6 +193,11 @@ Dll entrypoint is **Entry**.
 > rundll32.exe LEGAL_LENGTH.dll,Entry
 ```
 
+## Deploy all on aws
+
+1. change private key in variables.tf
+2. 
+
 
 ## Notes
 
