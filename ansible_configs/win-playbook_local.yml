@@ -18,9 +18,9 @@
       ansible.builtin.copy:
         src: vcpkg.json
         dest: "C:\\vcpkg"
-   - name: Install deps
-     script: "install-deps.ps1"
-     register: out
+    - name: Install deps
+      script: "install-deps.ps1"
+      register: out
     - name: zip Sliver-CPPImplant2-asset.zip (local)
       local_action: ansible.builtin.command zip -r Sliver-CPPImplant2-asset.zip Sliver-CPPImplant2
     - name: upload Sliver-CPPImplant2-asset.zip
