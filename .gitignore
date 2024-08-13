@@ -7,3 +7,4 @@ terraform.tfstate.backup
 builder.cfg
 operator.cfg
 ansible_configs/sliver/*
+sliver/**
