@@ -54,3 +54,63 @@ $ ./build-servers.sh
 GOOS=windows CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -mod=vendor -trimpath -tags osusergo,netgo,cgosqlite,sqlite_omit_load_extension,client -ldflags "-s -w -X github.com/bishopfox/sliver/client/version.Version=v1.5.22 -X \"github.com/bishopfox/sliver/client/version.GoVersion=go version go1.19.1 linux/amd64\" -X github.com/bishopfox/sliver/client/version.CompiledAt=1723566051 -X github.com/bishopfox/sliver/client/version.GithubReleasesURL=https://api.github.com/repos/BishopFox/sliver/releases -X github.com/bishopfox/sliver/client/version.GitCommit=2772f8897de1a6cb7e37eb7ad9b529ac81dc8de5 -X github.com/bishopfox/sliver/client/version.GitDirty= -X github.com/bishopfox/sliver/client/assets.DefaultArmoryPublicKey=RWSBpxpRWDrD7Fe+VvRE3c2VEDC2NK80rlNCj+BX0gz44Xw07r6KQD9L -X github.com/bishopfox/sliver/client/assets.DefaultArmoryRepoURL=https://api.github.com/repos/sliverarmory/armory/releases" -o sliver-client.exe ./client
 $ 
 ```
+
+6. Update ./ansible_configs/inventory/win_inventory.yml with ip of your windows VM and username and password you set before.
+```
+[sliverbuilder]
+192.168.119.132
+
+[sliverbuilder:vars]
+ansible_connection=winrm
+ansible_user=ansibleUser
+ansible_password=ansiblePass
+ansible_winrm_server_cert_validation=ignore
+```
+
+7. Start sliver-server locally. Start multiplayer mode and create two operators: one is the builder the other one a normal operator.
+```
+└─$ ~/sliver-builds/sliver-server
+[*] Loaded 16 aliases from disk
+[*] Loaded 69 extension(s) from disk
+
+    ███████╗██╗     ██╗██╗   ██╗███████╗██████╗
+    ██╔════╝██║     ██║██║   ██║██╔════╝██╔══██╗
+    ███████╗██║     ██║██║   ██║█████╗  ██████╔╝
+    ╚════██║██║     ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
+    ███████║███████╗██║ ╚████╔╝ ███████╗██║  ██║
+    ╚══════╝╚══════╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝
+
+All hackers gain cipher
+[*] Server v1.5.22 - 1230ffeda7ec994d56e1ed0036b00b50508ca7d8
+[*] Welcome to the sliver shell, please type 'help' for options
+
+[server] sliver > multiplayer
+
+[*] Multiplayer mode enabled!
+
+[server] sliver > new-operator -l 192.168.161.50 -n winbuilder
+
+[*] Generating new client certificate, please wait ...
+[*] Saved new client config to: /home/kali/sliver-builds/winbuilder_192.168.161.50.cfg
+
+[server] sliver > new-operator -n ale98 -l 127.0.0.1
+
+[*] Generating new client certificate, please wait ...
+[*] Saved new client config to: /home/kali/sliver-builds/ale98_127.0.0.1.cfg
+
+[*] ale98 has joined the game
+
+[server] sliver > operators
+
+ Name         Status
+============ =========
+ winbuilder   Offline
+ ale98        Offline
+
+[server] sliver >
+```
+
+8. Move winbuilder_192.168.161.50.cfg under ansible_configs with name builder.cfg
+```
+$ mv winbuilder_192.168.161.50.cfg /path/to/ansible_configs/builder.cfg
+```
