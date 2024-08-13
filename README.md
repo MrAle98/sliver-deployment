@@ -8,7 +8,7 @@ This repository deploys both a **sliver teamserver** and a **builder of C++ impl
 
 Requires to install:
 * **ansible**
-* [pywinrm]([https://link-url-here.org](https://docs.ansible.com/ansible/latest/os_guide/windows_winrm.html)) so that ansible con communicate with the windows VM over WinRM
+* [**pywinrm**]([https://link-url-here.org](https://docs.ansible.com/ansible/latest/os_guide/windows_winrm.html)) so that ansible con communicate with the windows VM over WinRM
 * **go1.19.1**
 
 Be sure that when you run go on your machine the symbolic link is pointing to go1.19.1.
