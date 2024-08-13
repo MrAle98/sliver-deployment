@@ -21,8 +21,6 @@ lrwxrwxrwx 1 root root 26 13 ago 16.19 go -> /home/kali/go/bin/go1.19.1
 └─$
 ```
 
-
-
 ## Deploy all locally
 
 Here instructions about how to deploy the **teamserver** on a **local kali VM** and the **builder** on a **local windows VM**.
@@ -194,6 +192,11 @@ Dll entrypoint is **Entry**.
 ```
 > rundll32.exe LEGAL_LENGTH.dll,Entry
 ```
+
+
+## Notes
+
+powershell and dotnet formats rely on inceptor and MemoryModulePP projects.
 
 ## Acknowledgements
 
