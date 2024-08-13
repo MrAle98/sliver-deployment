@@ -6,11 +6,25 @@ This repository deploys both a **sliver teamserver** and a **builder of C++ impl
 
 ## Deploy all locally
 
+*Requires to install **ansible** and pywinrm https://docs.ansible.com/ansible/latest/os_guide/windows_winrm.html so that ansible con communicate with the windows VM over WinRM.* 
+
 Here instructions about how to deploy the **teamserver** on a **local kali VM** and the **builder** on a **local windows VM**.
 
-Clone repository with submodules.
+1. Clone repo with all submodules on kali VM.
+```
+$ git clone --recursive https://github.com/MrAle98/sliver-awsdeployment.git
+```
+2. disable AV on windows VM.
+3. copy setup_local.ps1 on windows VM. Change username and password variable inside the script to be whatever you like. Default are `ansibleUser:ansiblePass`. Run the script (as administrator).
 
+```
+PS > powershell -ep bypass
+PS > .\setup_local.ps1
+[...]
+You need to restart this machine prior to using choco.
+Ensuring Chocolatey commands are on the path
+Ensuring chocolatey.nupkg is in the lib folder
+PS >
+```
 
-
-
-
+4. Restart the VM.
