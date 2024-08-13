@@ -1,11 +1,9 @@
-data "template_file" "windows-userdata" {
-  template = <<EOF
-      <powershell>
-      $logfilepath="C:\agent.log"
+      mkdir C:\templog\
+      $logfilepath="C:\templog\agent.log"
       $fqdn="$env:computername"
-      $port=5986 
-      $username = '${var.instance_username}'
-      $password = ConvertTo-SecureString '${var.instance_password}' -AsPlainText -Force 
+      $port=5986
+      $username = 'ansibleUser'
+      $password = ConvertTo-SecureString 'ansiblePass' -AsPlainText -Force
       Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser -Force -ErrorAction Ignore
       $ErrorActionPreference = "stop"
       function Write-Log {
@@ -30,7 +28,7 @@ data "template_file" "windows-userdata" {
               Add-LocalGroupMember -Group "Administrators" -Member "$username" -ErrorAction stop
               Write-Log -message "$username added to the Administrators group"
             }catch{ Write-log -message $_.Exception.message -level "ERROR"}
-          }    
+          }
       }
       function Delete-WinRMListener {
           process {
@@ -48,13 +46,13 @@ data "template_file" "windows-userdata" {
           }
       }
       function Configure-WinRMHttpsListener {
-          
+
           Delete-WinRMListener
-          
+
             try {
               Write-Log -message "creating self-signed certificate"
               $Cert = (New-SelfSignedCertificate -CertstoreLocation Cert:\LocalMachine\My -dnsname $fqdn -NotAfter (Get-Date).AddMonths(36)).Thumbprint
-              
+
               if(-not $Cert) {
                   throw "Failed to create the test certificate."
                   Write-Log -message "failed to create certificate" -level "ERROR"
@@ -63,10 +61,10 @@ data "template_file" "windows-userdata" {
               invoke-expression $WinrmCreate
               winrm set winrm/config/service/auth '@{Basic="true"}'
             } catch { Write-log -message "Create certificate - "+ $_.Exception.message -level "ERROR"}
-          
+
       }
       function Add-FirewallRule {
-          
+
             try {
               # Delete an exisitng rule
               Write-Log -message "Deleting the existing firewall rule for port $port"
@@ -75,7 +73,7 @@ data "template_file" "windows-userdata" {
               Write-Log -message "Adding the firewall rule for port $port"
               netsh advfirewall firewall add rule name="Windows Remote Management (HTTPS-In)" dir=in action=allow protocol=TCP localport=$port | Out-Null
             } catch { Write-log -message "Add/Remove firewall rule - "+ $_.Exception.message -level "ERROR"}
-          
+
       }
       function Configure-WinRMService {
           try {
@@ -89,13 +87,14 @@ data "template_file" "windows-userdata" {
               cmd.exe /c winrm set "winrm/config/service/auth" '@{Basic="true"}'
               cmd.exe /c winrm set "winrm/config/client/auth" '@{Basic="true"}'
               cmd.exe /c winrm set "winrm/config/service/auth" '@{CredSSP="true"}'
-          } catch  { Write-log -message "configure winrm service - "+ $_.Exception.message -level "ERROR"}
+          } catch  { Write-log -message "configure winrm service - $_.Exception.message"  -level "ERROR"}
       }
+      Delete-WinRMListener
       # Create local admin user
-      Create-LocalAdmin 
-      # Configure WinRM service
+      #Create-LocalAdmin
+      #Configure WinRM service
       Configure-WinRMService
-      # Configure WinRM listener
+      #Configure WinRM listener
       Configure-WinRMHttpsListener
       # Add Firewall rules
       Add-FirewallRule
@@ -103,12 +102,10 @@ data "template_file" "windows-userdata" {
       Write-Verbose -Verbose "Listing the WinRM listeners:"
       Write-Verbose -Verbose "Querying WinRM listeners by running command: winrm enumerate winrm/config/listener"
       winrm enumerate winrm/config/listener
-      
-      # disable AV      
+
+      # Disable AV
       Set-MpPreference -DisableIntrusionPreventionSystem $true -DisableIOAVProtection $true -DisableRealtimeMonitoring $true -DisableScriptScanning $true -EnableControlledFolderAccess Disabled -EnableNetworkProtection AuditMode -Force -MAPSReporting Disabled -SubmitSamplesConsent NeverSend
       
       # install chocolatey
       Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-      </powershell>
-    EOF
-}
+      
