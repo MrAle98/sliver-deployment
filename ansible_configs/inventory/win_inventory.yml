@@ -1,5 +1,5 @@
 [sliverbuilder]
-192.168.119.132
+192.168.119.148
 
 [sliverbuilder:vars]
 ansible_connection=winrm
