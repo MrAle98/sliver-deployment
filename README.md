@@ -115,7 +115,7 @@ All hackers gain cipher
 $ mv winbuilder_192.168.161.50.cfg /path/to/ansible_configs/builder.cfg
 ```
 
-9. run ansible playbook win-playbook_local.yml (It will take 1 hour). 
+9. run ansible playbook win-playbook_local.yml (It will take 1 hour or more). 
 ```
 $ cd ansible_configs/
 $ ansible-playbook -i inventory/win_inventory.yml win-playbook_local.yml
