@@ -208,7 +208,27 @@ Create ssh key on AWS
 $ terraform init
 $ terraform validate
 $ terraform apply
+var.instance_password                                                                               
+  Enter a value: <set your password>                                                              
+                                                  
+var.whitelist_cidr_home                                                                             
+  Enter a value: <set home_ip_address/32 allowed to access machines>                                                                     
+                                                  
+var.whitelist_cidr_office                         
+  Enter a value: <set office_ip_address/number allowed to access machines> 
+[...]
+Apply complete! Resources: 2 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+Administrator_Password = "[base64]"
+sliver-server_ip = "3.77.146.66"
+windows-sliver-builder_ip = "3.68.68.55"
+$ 
 ```
+
+
+
 
 
 ## Notes
