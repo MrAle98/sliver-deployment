@@ -200,9 +200,9 @@ Dll entrypoint is **Entry**.
 
 ## Deploy all on aws
 
-Create ssh key on AWS and take note of a **subnet id** of your default VPC. In addition take note of the **ip address range** of your subnet. 
+**Create ssh key on AWS** and take note of a **subnet id** of your **default VPC**. In addition take note of the **ip address range** of your subnet. 
 
-1. change private key name in **variables.tf**. Change path to private key (.pem file) in **decrypt_pass.sh**. Change path to private key (.pem file) in **run_linuxplaybook.sh**. Set username and password variables inside **variables.tf**. Set same username and password variables inside **ansible_configs/inventory/win_inventory.yml**. Set **whitelist_cidr_home** and **whitelist_cidr_office** to ip ranges allowed to reach your machines in **variables.tf**. Change the ip **172.31.0.5** with an ip in the address range of your subnet inside **linux-playbook.yml**. 
+1. change **private key name** in **variables.tf**. Change **path to private key** (.pem file) in **decrypt_pass.sh**. Change **path to private key** (.pem file) in **run_linuxplaybook.sh**. Set username and password variables inside **variables.tf**. Set same username and password variables inside **ansible_configs/inventory/win_inventory.yml**. Set **whitelist_cidr_home** and **whitelist_cidr_office** to ip ranges allowed to reach your machines in **variables.tf**. Change the ip **172.31.0.5** with an ip in the address range of your subnet inside **linux-playbook.yml**. 
 2. run terraform.
 ```
 $ terraform init
