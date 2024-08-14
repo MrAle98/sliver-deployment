@@ -202,7 +202,7 @@ Dll entrypoint is **Entry**.
 
 Create ssh key on AWS
 
-1. change private key name in variables.tf. Change path to private key (.pem file) in decrypt_pass.sh. Change path to private key (.pem file) in run_linuxplaybook.sh.
+1. change private key name in variables.tf. Change path to private key (.pem file) in decrypt_pass.sh. Change path to private key (.pem file) in run_linuxplaybook.sh. Set username and password variables inside variables.tf. Set same username and password variables inside ansible_configs/inventory/win_inventory.yml. Set whitelist_cidr_home and whitelist_cidr_office to ip ranges allowed to reach your machines.
 2. run terraform.
 ```
 $ terraform init
@@ -227,22 +227,22 @@ windows-sliver-builder_ip = "3.68.68.55"
 $ 
 ```
 
-3. decrypt Administrator_Password
+3. decrypt Administrator_Password (in case you need it)
 ```
 $ ./decrypt_pass.sh <base64 Administrator_Password>
 The command rsautl was deprecated in version 3.0. Use 'pkeyutl' instead.
 [your password] 
 $
 ```
-4. Update ./ansible_configs/inventory/win_inventory.yml with ip of the windows VM on AWS (windows-sliver-builder_ip) and username and password decrypted at step 3. Default username is `winadmin1`.
+4. Update ./ansible_configs/inventory/win_inventory.yml with ip of the windows VM on AWS (windows-sliver-builder_ip).
 ```
 [sliverbuilder]
 3.68.68.55
 
 [sliverbuilder:vars]
 ansible_connection=winrm
-ansible_user=winadmin1
-ansible_password="<decrypted Administrator_Password>"
+ansible_user=<username in variables.tf>
+ansible_password="<password in variables.tf>"
 ansible_winrm_server_cert_validation=ignore
 ```
 5. run linuxplaybook passing as input linux VM ip in aws (sliver-server_ip).
