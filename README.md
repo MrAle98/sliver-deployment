@@ -47,7 +47,7 @@ Ensuring chocolatey.nupkg is in the lib folder
 PS >
 ```
 
-4. Restart the VM.
+4. Restart the VM. After the VM restarts be sure AV is completely disabled.
 
 5. Run build-servers.sh.
 
