@@ -4,6 +4,7 @@
     - packages:
       - visualstudio2019-workload-vctools
       - vcredist140
+      - python310
   tasks:
     - name: Install build tools and vcredist
       chocolatey.chocolatey.win_chocolatey:
@@ -13,27 +14,94 @@
       chocolatey.chocolatey.win_chocolatey:
         name: git
         state: present
-    - name: Install python310
-      chocolatey.chocolatey.win_chocolatey:
-        name: python310
-        state: present
+    - name: Creates directory
+      ansible.windows.win_file:
+        path: "C:\\vcpkg"
+        state: directory
+    - name: upload vcpkg.json
+      ansible.builtin.copy:
+        src: vcpkg.json
+        dest: "C:\\vcpkg"
     - name: Install deps
       script: "install-deps.ps1"
       register: out
-    - name: Copy assets and sliver
-#      ansible.builtin.copy:
-#        src: ./Sliver-CPPImplant2-asset
-#        dest: "C:\\"
-#        directory_mode: 1
-#    - name: copy sliver-builder
-#      ansible.builtin.copy:
-#        src: ./sliver
-#        dest: C:\\Program Files\\
-#        directory_mode: 1
+    - name: zip Sliver-CPPImplant2-asset.zip (local)
+      local_action: ansible.builtin.command zip -r Sliver-CPPImplant2-asset.zip Sliver-CPPImplant2
+    - name: upload Sliver-CPPImplant2-asset.zip
+      ansible.builtin.copy:
+        src: Sliver-CPPImplant2-asset.zip
+        dest: "C:\\"
+    - name: delete Sliver-CPPImplant2-asset.zip (local)
+      local_action: ansible.builtin.command rm Sliver-CPPImplant2-asset.zip
+    - name: unzip Sliver-CPPImplant2-asset.zip
       ansible.windows.win_powershell:
         script: |
-          Copy-S3Object -BucketName sliver-bucket -KeyPrefix "/Sliver-CPPImplant2-asset"  -LocalFolder "C:\Sliver-CPPImplant2-asset\"
-          Copy-S3Object -BucketName sliver-bucket -KeyPrefix "/sliver"  -LocalFolder "C:\Program Files\sliver\"
+          cd "C:\"
+          Expand-Archive Sliver-CPPImplant2-asset.zip -DestinationPath .
+          rm -Force Sliver-CPPImplant2-asset.zip
+    - name: config Sliver-CPPImplant2-asset builders
+      ansible.windows.win_powershell:
+        script: |
+          cd "C:\"
+          mv .\Sliver-CPPImplant2 .\Sliver-CPPImplant2-asset
+          cd "C:\Sliver-CPPImplant2-asset"
+          cp compile.bat compile.bat.bak
+          mv -force deploy_compile.bat compile.bat 
+    - name: zip sliver (local)
+      local_action: ansible.builtin.command zip -r sliver.zip sliver
+    - name: upload sliver.zip
+      ansible.builtin.copy:
+        src: sliver.zip
+        dest: "C:\\Program Files\\"
+    - name: delete sliver.zip (local)
+      local_action: ansible.builtin.command rm sliver.zip
+    - name: unzip sliver.zip
+      ansible.windows.win_powershell:
+        script: |
+          cd "C:\Program Files\"
+          Expand-Archive sliver.zip -DestinationPath .
+          rm -Force sliver.zip
+    - name: zip inceptor (local)
+      local_action: ansible.builtin.command zip -r inceptor.zip inceptor
+    - name: upload inceptor.zip
+      ansible.builtin.copy:
+        src: inceptor.zip
+        dest: "C:\\temp\\inceptor"
+    - name: delete inceptor.zip (local)
+      local_action: ansible.builtin.command rm inceptor.zip
+    - name: unzip inceptor.zip
+      ansible.windows.win_powershell:
+        script: |
+          cd "C:\temp\inceptor"
+          Expand-Archive inceptor.zip -DestinationPath .
+          rm -Force inceptor.zip
+    - name: copy inceptor-config.txt
+      ansible.builtin.copy:
+        src: ./inceptor-config.txt
+        dest: "C:\\temp\\inceptor\\inceptor\\inceptor"
+    - name: Init inceptor
+      script: "init-inceptor.ps1"
+      register: out
+    - name: zip MemoryModulePP (local)
+      local_action: ansible.builtin.command zip -r MemoryModulePP.zip MemoryModulePP
+    - name: upload MemoryModulePP.zip
+      ansible.builtin.copy:
+        src: MemoryModulePP.zip
+        dest: "C:\\temp"
+    - name: delete MemoryModulePP.zip (local)
+      local_action: ansible.builtin.command rm MemoryModulePP.zip
+    - name: unzip MemoryModulePP.zip
+      ansible.windows.win_powershell:
+        script: |
+          cd "C:\temp\"
+          Expand-Archive MemoryModulePP.zip -DestinationPath .
+          rm -Force MemoryModulePP.zip 
+    - name: config MemoryModulePP builders
+      ansible.windows.win_powershell:
+        script: |
+          cd "C:\temp\MemoryModulePP"
+          mv build_loader.bat build_loader.bat.bak 
+          mv build_loader_deploy.bat build_loader.bat     
     - name: upload builder operator file
       ansible.builtin.copy:
         src: ./builder.cfg
@@ -42,11 +110,9 @@
       ansible.windows.win_powershell:
         script: |
           Start-Process "C:\Program Files\sliver\sliver-server.exe"
-          Start-Sleep -seconds 60
+          Start-Sleep -seconds 30
           get-process -name sliver-server
           stop-process -name sliver-server -force
-          //New-Service -Name SliverSVC -BinaryPathName " cmd.exe /c '\"C:\Program Files\sliver\sliver-server.exe\" builder -c \"C:\Program Files\sliver\builder.cfg\"'" -StartupType Manual
-          //Start-Service -name SliverSVC
       register: out
     - name: restart sliver-server
       ansible.windows.win_shell: .\sliver-server.exe builder -c builder.cfg
