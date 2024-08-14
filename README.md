@@ -245,7 +245,38 @@ ansible_user=winadmin1
 ansible_password="<decrypted Administrator_Password>"
 ansible_winrm_server_cert_validation=ignore
 ```
+5. run linuxplaybook passing as input linux VM ip in aws (sliver-server_ip).
+```
+$ ./run-linuxplaybook.sh 3.77.146.66
+[...]
+changed: [3.77.146.66]
+ ____________
+< PLAY RECAP >
+ ------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
 
+3.77.146.66                : ok=17   changed=15   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+$
+```
+
+
+
+
+```
+┌──(kali㉿kali)-[~/temp/sliver-awsdeployment/ansible_configs]
+└─$ cp builder_aws.cfg sliver/builder.cfg
+
+┌──(kali㉿kali)-[~/temp/sliver-awsdeployment/ansible_configs]
+└─$ ~/sliver-builds/sliver-client import operator.cfg
+2024/08/14 11:45:10 Saved new client config to: /home/kali/.sliver-client/configs/operator_3.77.146.66.cfg
+
+┌──(kali㉿kali)-[~/temp/sliver-awsdeployment/ansible_configs]
+└─$
+```
 
 ## Notes
 
