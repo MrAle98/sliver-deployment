@@ -227,8 +227,24 @@ windows-sliver-builder_ip = "3.68.68.55"
 $ 
 ```
 
+3. decrypt Administrator_Password
+```
+$ ./decrypt_pass.sh <base64 Administrator_Password>
+The command rsautl was deprecated in version 3.0. Use 'pkeyutl' instead.
+[your password] 
+$
+```
+4. Update ./ansible_configs/inventory/win_inventory.yml with ip of the windows VM on AWS (windows-sliver-builder_ip) and username and password decrypted at step 3. Default username is `winadmin1`.
+```
+[sliverbuilder]
+3.68.68.55
 
-
+[sliverbuilder:vars]
+ansible_connection=winrm
+ansible_user=winadmin1
+ansible_password="<decrypted Administrator_Password>"
+ansible_winrm_server_cert_validation=ignore
+```
 
 
 ## Notes
