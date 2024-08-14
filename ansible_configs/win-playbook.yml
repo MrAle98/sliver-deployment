@@ -42,7 +42,7 @@
       ansible.windows.win_powershell:
         script: |
           Start-Process "C:\Program Files\sliver\sliver-server.exe"
-          Start-Sleep -seconds 30
+          Start-Sleep -seconds 60
           get-process -name sliver-server
           stop-process -name sliver-server -force
           //New-Service -Name SliverSVC -BinaryPathName " cmd.exe /c '\"C:\Program Files\sliver\sliver-server.exe\" builder -c \"C:\Program Files\sliver\builder.cfg\"'" -StartupType Manual

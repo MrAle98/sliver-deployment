@@ -19,6 +19,10 @@
       become: yes
       ansible.builtin.command:
         cmd: chmod +x /opt/sliver/sliver-server
+    - name: remove operator files
+      become: yes
+      ansible.builtin.command:
+        cmd: rm -rf /opt/sliver/builder.cfg
     - name: create operator file
       become: yes
       ansible.builtin.command:
