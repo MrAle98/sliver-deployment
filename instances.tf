@@ -9,8 +9,6 @@ resource "aws_instance" "sliver-server" {
   tags = {
     Name = "sliver-server"
   }
-
-    iam_instance_profile = aws_iam_instance_profile.ec2_profile.id
 }
 
 resource "aws_instance" "sliver-builder" {
@@ -21,14 +19,12 @@ resource "aws_instance" "sliver-builder" {
   subnet_id              = var.subnet_id
   get_password_data      = "true"
 
-  iam_instance_profile = aws_iam_instance_profile.ec2_profile.id
-
   root_block_device {
     volume_size           = var.root_volume_size
     delete_on_termination = var.delete_on_termination
   }
 
-  user_data = data.template_file.windows-userdata.rendered
+  user_data = templatefile("setup.tftpl",{username = var.instance_username, password = var.instance_password})
   tags = {
     Name = "sliver-builder"
   }

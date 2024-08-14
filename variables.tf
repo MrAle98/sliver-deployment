@@ -1,6 +1,6 @@
 variable "ami-windows-server-2022" {
   type    = string
-  default = "ami-000db6d28423ad985"
+  default = "ami-05804339cc1cf98c0"
 }
 
 variable "ami-aws-linux" {
@@ -14,13 +14,14 @@ variable "private_key" {
 }
 
 variable "whitelist_cidr_home" {
-  type    = string
+  type = string
+  default = "2.37.204.174/32"
 }
 
 #subnet 172.31.0.0/20
 variable "subnet_id" {
   type    = string
-  default = "	subnet-0e66160a715744509"
+  default = "subnet-0e66160a715744509"
 }
 variable "private_ip_sliver-server" {
   type    = string
@@ -28,7 +29,8 @@ variable "private_ip_sliver-server" {
 }
 
 variable "whitelist_cidr_office" {
-  type    = string
+  type = string
+  default = "212.31.229.126/32"
 }
 
 variable "root_volume_size" {
@@ -50,4 +52,5 @@ variable "instance_username" {
 
 variable "instance_password" {
   type = string
+  default = "Topwsksav431!!"
 }
