@@ -46,7 +46,7 @@
           mv .\Sliver-CPPImplant2 .\Sliver-CPPImplant2-asset
           cd "C:\Sliver-CPPImplant2-asset"
           cp compile.bat compile.bat.bak
-          mv -force deploy_compile.bat compile.bat 
+          mv -force deploy_compile.bat compile.bat
     - name: zip sliver (local)
       local_action: ansible.builtin.command zip -r sliver.zip sliver
     - name: upload sliver.zip
@@ -95,17 +95,13 @@
         script: |
           cd "C:\temp\"
           Expand-Archive MemoryModulePP.zip -DestinationPath .
-          rm -Force MemoryModulePP.zip 
+          rm -Force MemoryModulePP.zip
     - name: config MemoryModulePP builders
       ansible.windows.win_powershell:
         script: |
           cd "C:\temp\MemoryModulePP"
-          mv build_loader.bat build_loader.bat.bak 
-          mv build_loader_deploy.bat build_loader.bat     
-    - name: upload builder operator file
-      ansible.builtin.copy:
-        src: ./builder.cfg
-        dest: C:\\Program Files\\sliver\\
+          mv build_loader.bat build_loader.bat.bak
+          mv build_loader_deploy.bat build_loader.bat
     - name: start sliver-server (unpacking)
       ansible.windows.win_powershell:
         script: |

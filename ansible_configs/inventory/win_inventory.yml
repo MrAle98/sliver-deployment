@@ -1,8 +1,0 @@
-[sliverbuilder]
-192.168.119.148
-
-[sliverbuilder:vars]
-ansible_connection=winrm
-ansible_user=ansibleUser
-ansible_password=ansiblePass
-ansible_winrm_server_cert_validation=ignore
