@@ -242,7 +242,7 @@ $ ./decrypt_pass.sh <base64 Administrator_Password>
 The command rsautl was deprecated in version 3.0. Use 'pkeyutl' instead.
 [your password] 
 $
-
+```
 
 Disable Windows defender.
 
