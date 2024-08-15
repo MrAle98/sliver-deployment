@@ -5,6 +5,7 @@ git checkout refactor/teamserver-interaction
 ./go-assets.sh
 make linux
 rm -rf ~/sliver-builds
+rm -rf ../ansible_configs/sliver
 mkdir ~/sliver-builds
 cp sliver-server ../ansible_configs/sliver
 cp sliver-client ../ansible_configs/sliver
