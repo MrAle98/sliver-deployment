@@ -7,6 +7,7 @@ make linux
 rm -rf ~/sliver-builds
 rm -rf ../ansible_configs/sliver
 mkdir ~/sliver-builds
+mkdir ../ansible_configs/sliver
 cp sliver-server ../ansible_configs/sliver
 cp sliver-client ../ansible_configs/sliver
 cp sliver-server ~/sliver-builds/
