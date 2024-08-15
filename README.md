@@ -204,13 +204,15 @@ Here instructions for deploying the **teamserver** on a **amazon linux VM** and 
 
 **Create ssh key on AWS** and take note of a **subnet id** of your **default VPC**. In addition take note of the **ip address range** of your subnet. 
 
-1. Clone repo with all submodules on kali VM.
+Clone repo with all submodules on kali VM.
 ```
 $ git clone --recursive https://github.com/MrAle98/sliver-awsdeployment.git
 ```
 
-2. change **private key name** in **variables.tf**. Change **path to private key** (.pem file) in **decrypt_pass.sh**. Change **path to private key** (.pem file) in **run_linuxplaybook.sh**. Set username and password variables inside **variables.tf**. Set same username and password variables inside **ansible_configs/inventory/win_inventory.yml**. Set **whitelist_cidr_home** and **whitelist_cidr_office** to ip ranges allowed to reach your machines in **variables.tf**. Change the ip **172.31.0.5** with an ip in the address range of your subnet inside **linux-playbook.yml**. 
-3. run terraform.
+Change **private key name** in **variables.tf**. Change **path to private key** (.pem file) in **decrypt_pass.sh**. Change **path to private key** (.pem file) in **run_linuxplaybook.sh**. Set username and password variables inside **variables.tf**. Set same username and password variables inside **ansible_configs/inventory/win_inventory.yml**. Set **whitelist_cidr_home** and **whitelist_cidr_office** to ip ranges allowed to reach your machines in **variables.tf**. Change the ip **172.31.0.5** with an ip in the address range of your subnet inside **linux-playbook.yml**. 
+
+
+Run terraform.
 ```
 $ terraform init
 $ terraform validate
@@ -234,14 +236,27 @@ windows-sliver-builder_ip = "3.68.68.55"
 $ 
 ```
 
-4. decrypt Administrator_Password (in case you need it)
+Decrypt Administrator_Password (in case you need it).
 ```
 $ ./decrypt_pass.sh <base64 Administrator_Password>
 The command rsautl was deprecated in version 3.0. Use 'pkeyutl' instead.
 [your password] 
 $
+
+
+Disable Windows defender.
+
 ```
-5. Update ./ansible_configs/inventory/win_inventory.yml with ip of the windows VM on AWS (windows-sliver-builder_ip).
+$ evil-winrm -i 18.197.48.244 -u winadmin1 -p 'Topwsksav431!!' -P 5986 -S
+                                        
+[...]
+
+*Evil-WinRM* PS C:\> Set-MpPreference -DisableIntrusionPreventionSystem $true -DisableIOAVProtection $true -DisableRealtimeMonitoring $true -DisableScriptScanning $true -EnableControlledFolderAccess Disabled -EnableNetworkProtection AuditMode -Force -MAPSReporting Disabled -SubmitSamplesConsent NeverSend
+*Evil-WinRM* PS C:\> 
+```
+
+
+Update ./ansible_configs/inventory/win_inventory.yml with ip of the windows VM on AWS (windows-sliver-builder_ip).
 ```
 [sliverbuilder]
 3.68.68.55
@@ -252,7 +267,7 @@ ansible_user=<username in variables.tf>
 ansible_password="<password in variables.tf>"
 ansible_winrm_server_cert_validation=ignore
 ```
-6. run linuxplaybook passing as input linux VM ip in aws (sliver-server_ip).
+Run linuxplaybook passing as input linux VM ip in aws (sliver-server_ip).
 ```
 $ ./run-linuxplaybook.sh 3.77.146.66
 [...]
