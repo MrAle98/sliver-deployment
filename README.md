@@ -113,9 +113,9 @@ All hackers gain cipher
 [server] sliver >
 ```
 
-Move winbuilder_192.168.161.50.cfg under ansible_configs with name builder.cfg
+Move winbuilder_192.168.161.50.cfg under ansible_configs/sliver with name builder.cfg
 ```
-$ mv winbuilder_192.168.161.50.cfg /path/to/ansible_configs/builder.cfg
+$ mv winbuilder_192.168.161.50.cfg /path/to/ansible_configs/sliver/builder.cfg
 ```
 
 Run ansible playbook win-playbook_local.yml (It will take 1 hour or more). 
