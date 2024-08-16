@@ -300,18 +300,30 @@ $
 ```
 
 
+Copy builder_aws.cfg under ansible_configs/sliver.
 
 ```
-┌──(kali㉿kali)-[~/temp/sliver-awsdeployment/ansible_configs]
-└─$ cp builder_aws.cfg sliver/builder.cfg
+$ cp builder_aws.cfg sliver/builder.cfg
+```
 
-┌──(kali㉿kali)-[~/temp/sliver-awsdeployment/ansible_configs]
-└─$ ~/sliver-builds/sliver-client import operator.cfg
+Run ansible playbook win-playbook.yml (takes 1 hour or more).
+
+```
+$ ansible-playbook -i inventory/win_inventory.yml win-playbook.yml
+```
+
+Import operator.cfg in sliver-client.
+
+```
+$ ~/sliver-builds/sliver-client import operator.cfg
 2024/08/14 11:45:10 Saved new client config to: /home/kali/.sliver-client/configs/operator_3.77.146.66.cfg
-
-┌──(kali㉿kali)-[~/temp/sliver-awsdeployment/ansible_configs]
-└─$
+$
 ```
+
+Start sliver-client selecting the proper operator.cfg and select
+```
+```
+
 
 ## Notes
 
