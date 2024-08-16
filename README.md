@@ -118,10 +118,10 @@ Move winbuilder_192.168.161.50.cfg under ansible_configs/sliver with name builde
 $ mv winbuilder_192.168.161.50.cfg /path/to/ansible_configs/sliver/builder.cfg
 ```
 
-Run ansible playbook win-playbook_local.yml (It will take 1 hour or more). 
+Run ansible playbook win-playbook.yml (It will take 1 hour or more). 
 ```
 $ cd ansible_configs/
-$ ansible-playbook -i inventory/win_inventory.yml win-playbook_local.yml
+$ ansible-playbook -i inventory/win_inventory.yml win-playbook.yml
 ```
 
 Now start a sliver-client on your kali machine and notice the builder was registered successfully and you can generate exe, dll, dotnet, powershell implants. Be careful to spawn HTTP/HTTPS listeners always with the `-D` option as the C++ implant do not provide full support for OTPs.
