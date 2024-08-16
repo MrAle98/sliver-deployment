@@ -320,8 +320,39 @@ $ ~/sliver-builds/sliver-client import operator.cfg
 $
 ```
 
-Start sliver-client selecting the proper operator.cfg and select
+Start sliver-client selecting the proper operator.cfg and you should be ready to generate artifacts.
 ```
+$ ~/sliver-builds/sliver-client                                  
+? Select a server: operator@3.77.146.66 (265eec1987734c67)
+Connecting to 3.77.146.66:31337 ...
+[*] Loaded 16 aliases from disk
+[*] Loaded 69 extension(s) from disk
+
+.------..------..------..------..------..------.
+|S.--. ||L.--. ||I.--. ||V.--. ||E.--. ||R.--. |
+| :/\: || :/\: || (\/) || :(): || (\/) || :(): |
+| :\/: || (__) || :\/: || ()() || :\/: || ()() |
+| '--'S|| '--'L|| '--'I|| '--'V|| '--'E|| '--'R|
+`------'`------'`------'`------'`------'`------'
+
+All hackers gain miracle
+[*] Server v1.5.22 - 1230ffeda7ec994d56e1ed0036b00b50508ca7d8
+[*] Welcome to the sliver shell, please type 'help' for options
+
+sliver > builders
+
+ Name              Operator      Templates   Platform        Compiler Targets         
+================= ============= =========== =============== ==========================
+ EC2AMAZ-DDP1C9Q   builder_aws   sliver      windows/amd64   EXECUTABLE:windows/amd64 
+                                                             DOTNET:windows/amd64     
+                                                             POWERSHELL:windows/amd64 
+                                                             SHARED_LIB:windows/amd64 
+                                                             SERVICE:windows/386      
+                                                             SERVICE:windows/amd64    
+                                                             SHELLCODE:windows/386    
+                                                             SHELLCODE:windows/amd64  
+
+sliver >  
 ```
 
 
