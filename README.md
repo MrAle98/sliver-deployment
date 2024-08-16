@@ -30,12 +30,12 @@ lrwxrwxrwx 1 root root 26 13 ago 16.19 go -> /home/kali/go/bin/go1.19.1
 
 Here instructions about how to deploy the **teamserver** on a **local kali VM** and the **builder** on a **local windows VM**.
 
-1. Clone repo with all submodules on kali VM.
+Clone repo with all submodules on kali VM.
 ```
 $ git clone --recursive https://github.com/MrAle98/sliver-awsdeployment.git
 ```
-2. disable AV on windows VM.
-3. copy setup_local.ps1 on windows VM. Change username and password variable inside the script to be whatever you like. Default are `ansibleUser:ansiblePass`. Run the script (as administrator).
+
+Copy setup_local.ps1 on windows VM. Change username and password variable inside the script to be whatever you like. Default are `ansibleUser:ansiblePass`. Run the script (as administrator).
 
 ```
 PS > powershell -ep bypass
@@ -47,9 +47,9 @@ Ensuring chocolatey.nupkg is in the lib folder
 PS >
 ```
 
-4. Restart the VM. After the VM restarts be sure AV is completely disabled.
+Restart the VM. After the VM restarts be sure AV is completely disabled.
 
-5. Run build-servers.sh.
+Run build-servers.sh.
 
 ```
 $ ./build-servers.sh
@@ -58,7 +58,7 @@ GOOS=windows CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ 
 $ 
 ```
 
-6. Update ./ansible_configs/inventory/win_inventory.yml with ip of your windows VM and username and password you set before.
+Update ./ansible_configs/inventory/win_inventory.yml with ip of your windows VM and username and password you set before.
 ```
 [sliverbuilder]
 192.168.119.132
@@ -70,7 +70,7 @@ ansible_password=ansiblePass
 ansible_winrm_server_cert_validation=ignore
 ```
 
-7. Start sliver-server locally. Start multiplayer mode and create two operators: one is the builder the other one a normal operator.
+Start sliver-server locally. Start multiplayer mode and create two operators: one is the builder the other one a normal operator.
 ```
 └─$ ~/sliver-builds/sliver-server
 [*] Loaded 16 aliases from disk
@@ -113,12 +113,12 @@ All hackers gain cipher
 [server] sliver >
 ```
 
-8. Move winbuilder_192.168.161.50.cfg under ansible_configs with name builder.cfg
+Move winbuilder_192.168.161.50.cfg under ansible_configs with name builder.cfg
 ```
 $ mv winbuilder_192.168.161.50.cfg /path/to/ansible_configs/builder.cfg
 ```
 
-9. run ansible playbook win-playbook_local.yml (It will take 1 hour or more). 
+Run ansible playbook win-playbook_local.yml (It will take 1 hour or more). 
 ```
 $ cd ansible_configs/
 $ ansible-playbook -i inventory/win_inventory.yml win-playbook_local.yml
@@ -209,7 +209,20 @@ Clone repo with all submodules on kali VM.
 $ git clone --recursive https://github.com/MrAle98/sliver-awsdeployment.git
 ```
 
-Change **private key name** in **variables.tf**. Change **path to private key** (.pem file) in **decrypt_pass.sh**. Change **path to private key** (.pem file) in **run_linuxplaybook.sh**. Set username and password variables inside **variables.tf**. Set same username and password variables inside **ansible_configs/inventory/win_inventory.yml**. Set **whitelist_cidr_home** and **whitelist_cidr_office** to ip ranges allowed to reach your machines in **variables.tf**. Change the ip **172.31.0.5** with an ip in the address range of your subnet inside **linux-playbook.yml**. 
+Change the following properties in terraform files:
+* `variables.tf` - `private_key`: name of SSH key created on AWS.
+* `variables.tf` - `whitelist_cidr_home`: CIDR of ips allowed to reach the machines hosted on AWS (home).
+* `variables.tf` - `whitelist_cidr_office`: CIDR of ips allowed to reach the machines hosted on AWS (office).
+* `variables.tf` - `subnet_id`: subnet of internal subnet of your default VPC.
+* `variables.tf` - `private_ip_sliver-server`: ip address part of the subnet_id CIDR. Set the same ip address in `ansible_configs/linux-playbook.yml` in place of 172.31.0.5 (in case are not matching).
+* `variables.tf` - `instance_username`: winRM username for accessing windows VM on aws. Set the same on `ansible_configs/inventory/win_inventory.yml`.
+* `variables.tf` - `instance_password`: winRM password for accessing windows VM on aws. Set the same on `ansible_configs/inventory/win_inventory.yml`.
+
+In addition remember to:
+* change **path to private key** (.pem file) in `decrypt_pass.sh`.
+* change **path to private key** (.pem file) in `ansible_configs/run_linuxplaybook.sh`.
+  
+
 
 
 Run terraform.
@@ -267,7 +280,8 @@ ansible_user=<username in variables.tf>
 ansible_password="<password in variables.tf>"
 ansible_winrm_server_cert_validation=ignore
 ```
-Run linuxplaybook passing as input linux VM ip in aws (sliver-server_ip).
+
+Run run-linuxplaybook.sh passing as input linux VM ip hosted on aws (sliver-server_ip).
 ```
 $ ./run-linuxplaybook.sh 3.77.146.66
 [...]
@@ -284,7 +298,6 @@ changed: [3.77.146.66]
 3.77.146.66                : ok=17   changed=15   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 $
 ```
-
 
 
 
