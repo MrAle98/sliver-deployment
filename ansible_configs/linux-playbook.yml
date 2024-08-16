@@ -30,7 +30,7 @@
     - name: create builder operator file (aws windows machine)
       become: yes
       ansible.builtin.command:
-        cmd: /opt/sliver/sliver-server operator -l 172.31.0.5 -p 31337 -n builder_aws -s /opt/sliver/builder.cfg
+        cmd: /opt/sliver/sliver-server operator -l 172.31.0.5 -p 31337 -n builder_aws -s /opt/sliver/builder_aws.cfg
     - name: create builder operator file (local windows machine)
       become: yes
       ansible.builtin.command:
@@ -54,12 +54,12 @@
         flat: yes
     - name: download sliver builder operator file (aws windows machine)
       ansible.builtin.fetch:
-        src: /opt/sliver/builder.cfg
+        src: /opt/sliver/builder_aws.cfg
         dest: ./builder_aws.cfg
         flat: yes
     - name: download sliver builder operator file (local windows machine)
       ansible.builtin.fetch:
-        src: /opt/sliver/builder.cfg
+        src: /opt/sliver/builder_local.cfg
         dest: ./builder_local.cfg
         flat: yes
     - name: remove operator files
