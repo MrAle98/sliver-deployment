@@ -32,7 +32,7 @@ Here instructions about how to deploy the **teamserver** on a **local kali VM** 
 
 Clone repo with all submodules on kali VM.
 ```
-$ git clone --recursive https://github.com/MrAle98/sliver-awsdeployment.git
+git clone --recursive https://github.com/MrAle98/sliver-awsdeployment.git
 ```
 
 Copy setup_local.ps1 on windows VM. Change username and password variable inside the script to be whatever you like. Default are `ansibleUser:ansiblePass`. Run the script (as administrator).
@@ -52,10 +52,7 @@ Restart the VM. After the VM restarts be sure AV is completely disabled.
 Run build-servers.sh.
 
 ```
-$ ./build-servers.sh
-[...]
-GOOS=windows CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -mod=vendor -trimpath -tags osusergo,netgo,cgosqlite,sqlite_omit_load_extension,client -ldflags "-s -w -X github.com/bishopfox/sliver/client/version.Version=v1.5.22 -X \"github.com/bishopfox/sliver/client/version.GoVersion=go version go1.19.1 linux/amd64\" -X github.com/bishopfox/sliver/client/version.CompiledAt=1723566051 -X github.com/bishopfox/sliver/client/version.GithubReleasesURL=https://api.github.com/repos/BishopFox/sliver/releases -X github.com/bishopfox/sliver/client/version.GitCommit=2772f8897de1a6cb7e37eb7ad9b529ac81dc8de5 -X github.com/bishopfox/sliver/client/version.GitDirty= -X github.com/bishopfox/sliver/client/assets.DefaultArmoryPublicKey=RWSBpxpRWDrD7Fe+VvRE3c2VEDC2NK80rlNCj+BX0gz44Xw07r6KQD9L -X github.com/bishopfox/sliver/client/assets.DefaultArmoryRepoURL=https://api.github.com/repos/sliverarmory/armory/releases" -o sliver-client.exe ./client
-$ 
+./build-servers.sh
 ```
 
 Update ./ansible_configs/inventory/win_inventory.yml with ip of your windows VM and username and password you set before.
@@ -72,7 +69,7 @@ ansible_winrm_server_cert_validation=ignore
 
 Start sliver-server locally. Start multiplayer mode and create two operators: one is the builder the other one a normal operator.
 ```
-└─$ ~/sliver-builds/sliver-server
+$ ~/sliver-builds/sliver-server
 [*] Loaded 16 aliases from disk
 [*] Loaded 69 extension(s) from disk
 
@@ -115,13 +112,13 @@ All hackers gain cipher
 
 Move winbuilder_192.168.161.50.cfg under ansible_configs/sliver with name builder.cfg
 ```
-$ mv winbuilder_192.168.161.50.cfg /path/to/ansible_configs/sliver/builder.cfg
+mv winbuilder_192.168.161.50.cfg /path/to/ansible_configs/sliver/builder.cfg
 ```
 
 Run ansible playbook win-playbook.yml (It will take 1 hour or more). 
 ```
-$ cd ansible_configs/
-$ ansible-playbook -i inventory/win_inventory.yml win-playbook.yml
+cd ansible_configs/
+ansible-playbook -i inventory/win_inventory.yml win-playbook.yml
 ```
 
 Now start a sliver-client on your kali machine and notice the builder was registered successfully and you can generate exe, dll, dotnet, powershell implants. Be careful to spawn HTTP/HTTPS listeners always with the `-D` option as the C++ implant do not provide full support for OTPs.
@@ -195,7 +192,7 @@ sliver >
 Dll entrypoint is **Entry**.
 
 ```
-> rundll32.exe LEGAL_LENGTH.dll,Entry
+rundll32.exe LEGAL_LENGTH.dll,Entry
 ```
 
 ## Deploy all on aws
@@ -206,7 +203,7 @@ Here instructions for deploying the **teamserver** on a **amazon linux VM** and 
 
 Clone repo with all submodules on kali VM.
 ```
-$ git clone --recursive https://github.com/MrAle98/sliver-awsdeployment.git
+git clone --recursive https://github.com/MrAle98/sliver-awsdeployment.git
 ```
 
 Change the following properties in terraform files:
@@ -303,21 +300,19 @@ $
 Copy builder_aws.cfg under ansible_configs/sliver.
 
 ```
-$ cp builder_aws.cfg sliver/builder.cfg
+cp builder_aws.cfg sliver/builder.cfg
 ```
 
 Run ansible playbook win-playbook.yml (takes 1 hour or more).
 
 ```
-$ ansible-playbook -i inventory/win_inventory.yml win-playbook.yml
+ansible-playbook -i inventory/win_inventory.yml win-playbook.yml
 ```
 
 Import operator.cfg in sliver-client.
 
 ```
-$ ~/sliver-builds/sliver-client import operator.cfg
-2024/08/14 11:45:10 Saved new client config to: /home/kali/.sliver-client/configs/operator_3.77.146.66.cfg
-$
+~/sliver-builds/sliver-client import operator.cfg
 ```
 
 Start sliver-client selecting the proper operator.cfg and you should be ready to generate artifacts.
