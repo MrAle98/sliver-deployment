@@ -10,7 +10,7 @@ resource "aws_instance" "sliver-server" {
     Name = "sliver-server"
   }
 }
-
+/*
 resource "aws_instance" "sliver-builder" {
   ami                    = var.ami-windows-server-2022
   instance_type          = "t2.large"
@@ -30,3 +30,4 @@ resource "aws_instance" "sliver-builder" {
   }
 
 }
+*/
