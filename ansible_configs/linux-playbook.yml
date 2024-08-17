@@ -38,7 +38,7 @@
     - name: change builder perms (aws windows machine)
       become: yes
       ansible.builtin.command:
-        cmd: chmod +r /opt/sliver/builder.cfg
+        cmd: chmod +r /opt/sliver/builder_aws.cfg
     - name: change builder perms (local windows machine)
       become: yes
       ansible.builtin.command:
@@ -65,7 +65,7 @@
     - name: remove operator files
       become: yes
       ansible.builtin.command:
-        cmd: rm /opt/sliver/operator.cfg /opt/sliver/builder.cfg /opt/sliver/builder_local.cfg
+        cmd: rm /opt/sliver/operator.cfg /opt/sliver/builder_aws.cfg /opt/sliver/builder_local.cfg
     - name: start sliver daemon mode
       become: yes
       shell: "/opt/sliver/sliver-server daemon &"
