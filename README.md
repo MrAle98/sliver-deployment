@@ -340,7 +340,7 @@ sliver > builders
 sliver >  
 ```
 
-## Deploy server on aws and builder on local machine
+## Deploy teamserver on aws and builder on local machine
 
 Here instructions for deploying the **teamserver** on a **amazon linux VM**, hosted on **AWS**, and the **builder** on a **local windows VM**.
 
