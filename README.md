@@ -47,7 +47,7 @@ Ensuring chocolatey.nupkg is in the lib folder
 PS >
 ```
 
-Restart the VM. After the VM restarts be sure AV is completely disabled.
+Restart the VM. After the VM restarts **be sure AV is completely disabled**.
 
 Run build-servers.sh.
 
@@ -227,17 +227,7 @@ Run terraform.
 $ terraform init
 $ terraform validate
 $ terraform apply
-var.instance_password                                                                               
-  Enter a value: <set your password>                                                              
-                                                  
-var.whitelist_cidr_home                                                                             
-  Enter a value: <set home_ip_address/32 allowed to access machines>                                                                     
-                                                  
-var.whitelist_cidr_office                         
-  Enter a value: <set office_ip_address/number allowed to access machines> 
 [...]
-Apply complete! Resources: 2 added, 0 changed, 1 destroyed.
-
 Outputs:
 
 Administrator_Password = "[base64]"
@@ -351,6 +341,103 @@ sliver >
 ```
 
 ## Deploy server on aws and builder on local machine
+
+Here instructions for deploying the **teamserver** on a **amazon linux VM**, hosted on **AWS**, and the **builder** on a **local windows VM**.
+
+**Create ssh key on AWS** and take note of a **subnet id** of your **default VPC**. In addition take note of the **ip address range** of your subnet. 
+
+Clone repo with all submodules on kali VM and change current branch to **builder-local-deploy**.
+```
+git clone --recursive https://github.com/MrAle98/sliver-awsdeployment.git
+git checkout builder-local-deploy
+```
+
+Change the following properties in terraform files:
+* `variables.tf` - `private_key`: name of SSH key created on AWS.
+* `variables.tf` - `whitelist_cidr_home`: CIDR of ips allowed to reach the machines hosted on AWS (home).
+* `variables.tf` - `whitelist_cidr_office`: CIDR of ips allowed to reach the machines hosted on AWS (office).
+* `variables.tf` - `subnet_id`: subnet of internal subnet of your default VPC.
+* `variables.tf` - `private_ip_sliver-server`: ip address part of the subnet_id CIDR. Set the same ip address in `ansible_configs/linux-playbook.yml` in place of 172.31.0.5 (in case are not matching).
+
+
+In addition remember to:
+* change **path to private key** (.pem file) in `ansible_configs/run_linuxplaybook.sh`.
+
+Copy setup_local.ps1 on windows VM. Change username and password variable inside the script to be whatever you like. Default are `ansibleUser:ansiblePass`. Run the script (as administrator).
+
+```
+PS > powershell -ep bypass
+PS > .\setup_local.ps1
+[...]
+You need to restart this machine prior to using choco.
+Ensuring Chocolatey commands are on the path
+Ensuring chocolatey.nupkg is in the lib folder
+PS >
+```
+
+Restart the VM. After the VM restarts **be sure AV is completely disabled**.
+
+Run build-servers.sh.
+
+```
+./build-servers.sh
+```
+
+Update ./ansible_configs/inventory/win_inventory.yml with ip of your windows VM and username and password you set before.
+```
+[sliverbuilder]
+192.168.119.132
+
+[sliverbuilder:vars]
+ansible_connection=winrm
+ansible_user=ansibleUser
+ansible_password=ansiblePass
+ansible_winrm_server_cert_validation=ignore
+```
+
+Run terraform.
+```
+terraform init
+terraform validate
+terraform apply
+```
+
+Run run-linuxplaybook.sh passing as input linux VM ip hosted on aws (sliver-server_ip).
+```
+$ ./run-linuxplaybook.sh <sliver-server_ip>
+[...]
+ ____________
+< PLAY RECAP >
+ ------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+               : ok=17   changed=15   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+$
+```
+
+Copy builder_local.cfg under ansible_configs/sliver.
+
+```
+cp builder_local.cfg sliver/builder.cfg
+```
+
+Run ansible playbook win-playbook.yml (takes 1 hour or more).
+
+```
+ansible-playbook -i inventory/win_inventory.yml win-playbook.yml
+```
+
+Import operator.cfg in sliver-client.
+
+```
+~/sliver-builds/sliver-client import operator.cfg
+```
+
+Start sliver-client selecting the proper operator.cfg and you should be ready to generate artifacts.
 
 
 
