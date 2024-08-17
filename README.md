@@ -355,6 +355,11 @@ sliver > builders
 sliver >  
 ```
 
+## Deploy server on aws and builder on local machine
+
+
+
+
 
 ## Notes
 
