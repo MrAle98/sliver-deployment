@@ -367,6 +367,8 @@ Change the following properties in terraform files:
 In addition remember to:
 * change **path to private key** (.pem file) in `ansible_configs/run_linuxplaybook.sh`.
 
+Disable AV on windows VM.
+
 Copy setup_local.ps1 on windows VM. Change username and password variable inside the script to be whatever you like. Default are `ansibleUser:ansiblePass`. Run the script (as administrator).
 
 ```
