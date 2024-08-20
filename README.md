@@ -274,6 +274,7 @@ ansible_winrm_server_cert_validation=ignore
 
 Run run-linuxplaybook.sh passing as input linux VM ip hosted on aws (sliver-server_ip).
 ```
+$ cd ansible_configs
 $ ./run-linuxplaybook.sh 3.77.146.66
 [...]
 changed: [3.77.146.66]
@@ -410,6 +411,7 @@ terraform apply
 
 Run run-linuxplaybook.sh passing as input linux VM ip hosted on aws (sliver-server_ip).
 ```
+$ cd ansible_configs
 $ ./run-linuxplaybook.sh <sliver-server_ip>
 [...]
  ____________
