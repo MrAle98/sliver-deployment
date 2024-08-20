@@ -251,7 +251,7 @@ $
 Disable Windows defender.
 
 ```
-$ evil-winrm -i 18.197.48.244 -u winadmin1 -p 'Topwsksav431!!' -P 5986 -S
+$ evil-winrm -i 18.197.48.244 -u <username in variables.tf> -p <password in variables.tf> -P 5986 -S
                                         
 [...]
 
