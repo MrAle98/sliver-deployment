@@ -55,6 +55,8 @@ Run build-servers.sh.
 ./build-servers.sh
 ```
 
+You should find artifacts under `~/sliver-builds` and `./ansible_configs/sliver`.
+
 Update ./ansible_configs/inventory/win_inventory.yml with ip of your windows VM and username and password you set before.
 ```
 [sliverbuilder]
