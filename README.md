@@ -35,6 +35,8 @@ Clone repo with all submodules on kali VM.
 git clone --recursive https://github.com/MrAle98/sliver-deployment.git
 ```
 
+Disable AV on windows VM.
+
 Copy setup_local.ps1 on windows VM. Change username and password variable inside the script to be whatever you like. Default are `ansibleUser:ansiblePass`. Run the script (as administrator).
 
 ```
