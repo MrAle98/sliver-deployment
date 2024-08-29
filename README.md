@@ -9,7 +9,7 @@ This repository deploys both a **sliver teamserver** and a **builder of C++ impl
 Requires to install locally:
 * **ansible**
 * [**pywinrm**](https://docs.ansible.com/ansible/latest/os_guide/windows_winrm.html) so that ansible con communicate with the windows VM over WinRM
-* **go1.19.1**
+* [**go1.19.1**](https://go.dev/dl/)
 
 Additional requirements to install on aws:
 * **terraform** 
