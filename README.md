@@ -7,13 +7,13 @@ This repository deploys both a **sliver teamserver** and a **builder of C++ impl
 ## Requirements
 
 Requires to install locally:
-* **ansible**
+* [**ansible**](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-and-upgrading-ansible-with-pip)
 * [**pywinrm**](https://docs.ansible.com/ansible/latest/os_guide/windows_winrm.html) so that ansible con communicate with the windows VM over WinRM
 * [**go1.19.1**](https://go.dev/dl/)
 
 Additional requirements to install on aws:
-* **terraform** 
-* **awscli**
+* [**terraform**](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) 
+* [**awscli**](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 
 Be sure that when you run go on your machine the symbolic link is pointing to go1.19.1.
