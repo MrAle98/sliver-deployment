@@ -455,6 +455,15 @@ Start sliver-client selecting the proper operator.cfg and you should be ready to
 
 powershell and dotnet formats rely on inceptor and MemoryModulePP projects.
 
+## Issues
+In case of issues with the builder, you can directly run it from powershell in order to see the output (run commands as administrator).
+
+```
+> stop-process -name sliver-server
+> cd "C:\Program Files\sliver"
+> .\sliver-server.exe builder -c builder.cdfg
+```
+
 ## Acknowledgements
 
 * [Alessandro Magnosi](https://twitter.com/KlezVirus) for inceptor
