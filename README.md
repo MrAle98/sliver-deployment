@@ -461,7 +461,7 @@ In case of issues with the builder, you can directly run it from powershell in o
 ```
 > stop-process -name sliver-server
 > cd "C:\Program Files\sliver"
-> .\sliver-server.exe builder -c builder.cdfg
+> .\sliver-server.exe builder -c builder.cfg
 ```
 
 ## Acknowledgements
